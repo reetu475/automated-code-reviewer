@@ -67,3 +67,4 @@ Configure your API keys in `backend/.env`. A template is provided in `backend/.e
 
 3. **Open the App**:
    Navigate to the URL printed in your console (usually `http://localhost:5173`).
+# automated-code-reviewer
