@@ -2,5 +2,10 @@
   "version": 2,
   "installCommand": "npm install --prefix frontend && npm install --prefix backend",
   "buildCommand": "cd frontend && npm run build",
-  "outputDirectory": "frontend/dist"
+  "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs22.x"
+    }
+  }
 }
