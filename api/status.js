@@ -1,5 +1,3 @@
-import { getStatus } from "../backend/services/chroma.js";
-
 export default function handler(req, res) {
   const geminiConfigured =
     !!process.env.GEMINI_API_KEY &&
@@ -10,6 +8,12 @@ export default function handler(req, res) {
       configured: geminiConfigured,
       status: geminiConfigured ? "Online" : "Missing API Key"
     },
-    chroma: getStatus()
+    chroma: {
+      chromaConnected: !!process.env.CHROMA_API_KEY,
+      isMock: !process.env.CHROMA_API_KEY,
+      database: process.env.CHROMA_DATABASE || "aii",
+      tenant: process.env.CHROMA_TENANT || "N/A",
+      host: process.env.CHROMA_HOST || "api.trychroma.com"
+    }
   });
 }
