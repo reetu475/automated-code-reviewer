@@ -109,5 +109,17 @@
     "ingredients": {},
     "copyright": {
         "shortStatements": []
-    }
+    },
+    "edits": [
+        {
+            "editMap": [
+                "chatSystemMessage"
+            ],
+            "value": "This is a chat between a helpful Bible translation assistant and a Bible translator...",
+            "timestamp": 1779365308698,
+            "type": "user-edit",
+            "author": "unknown"
+        }
+    ],
+    "chatSystemMessage": "This is a chat between a helpful Bible translation assistant and a Bible translator..."
 }
