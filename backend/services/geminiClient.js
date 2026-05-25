@@ -1,5 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import { traceable } from "langsmith/traceable";
 
 dotenv.config();
 
@@ -49,7 +50,7 @@ export function formatGeminiError(err) {
 /**
  * Calls generateContent with retries and model fallbacks.
  */
-export async function generateWithFallback({ contents, config, label = "request" }) {
+export const generateWithFallback = traceable(async function generateWithFallback({ contents, config, label = "request" }) {
   if (!process.env.GEMINI_API_KEY) {
     throw new Error("Gemini API Key is missing. Please set GEMINI_API_KEY in your .env file.");
   }
@@ -86,9 +87,9 @@ export async function generateWithFallback({ contents, config, label = "request"
   }
 
   throw new Error(formatGeminiError(lastError));
-}
+}, { name: "generateWithFallback", run_type: "llm" });
 
-export async function embedWithRetry(text) {
+export const embedWithRetry = traceable(async function embedWithRetry(text) {
   if (!process.env.GEMINI_API_KEY) {
     throw new Error("Gemini API Key is missing. Please set GEMINI_API_KEY in your .env file.");
   }
@@ -113,4 +114,4 @@ export async function embedWithRetry(text) {
     }
   }
   throw new Error(formatGeminiError(lastError));
-}
+}, { name: "embedWithRetry", run_type: "embedding" });

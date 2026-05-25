@@ -1,10 +1,11 @@
 import { generateWithFallback, embedWithRetry } from "./geminiClient.js";
+import { traceable } from "langsmith/traceable";
 
 /**
  * Analyzes code using Gemini with structured JSON output.
  * If ChromaDB similarity context is provided, it incorporates it into the prompt.
  */
-export async function analyzeCode(code, language, contextReviews = []) {
+export const analyzeCode = traceable(async function analyzeCode(code, language, contextReviews = []) {
   let prompt = `Analyze the following ${language} code and provide code review suggestions.
 Include overall ratings, quality metrics, and line-by-line recommendations for improvements (bugs, styling, performance, and security issues).
 
@@ -98,19 +99,19 @@ ${JSON.stringify(ctx.suggestions, null, 2)}`;
   });
 
   return JSON.parse(response.text);
-}
+}, { name: "analyzeCode" });
 
 /**
  * Generates vector embeddings for a given code block or query.
  */
-export async function getEmbedding(text) {
+export const getEmbedding = traceable(async function getEmbedding(text) {
   return embedWithRetry(text);
-}
+}, { name: "getEmbedding" });
 
 /**
  * Chat conversation logic for code refactoring.
  */
-export async function refactorCodeChat(code, language, messages) {
+export const refactorCodeChat = traceable(async function refactorCodeChat(code, language, messages) {
   const systemInstruction = `You are an expert code refactoring assistant.
 You will modify the user's code based on their request.
 You must return your output in JSON format matching the schema:
@@ -161,12 +162,12 @@ ${code}
   });
 
   return JSON.parse(response.text);
-}
+}, { name: "refactorCodeChat" });
 
 /**
  * Detects the most likely programming language from a code snippet.
  */
-export async function detectLanguage(code) {
+export const detectLanguage = traceable(async function detectLanguage(code) {
   const responseSchema = {
     type: "OBJECT",
     properties: {
@@ -202,4 +203,4 @@ export async function detectLanguage(code) {
   };
   parsed.language = aliases[lang] || lang.replace(/\s+/g, "");
   return parsed;
-}
+}, { name: "detectLanguage" });
