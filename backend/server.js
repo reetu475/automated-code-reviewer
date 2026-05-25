@@ -1,13 +1,11 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 
 import { analyzeCode, getEmbedding, refactorCodeChat, detectLanguage } from "./services/gemini.js";
 import { initChroma, saveReview, saveSessionReview, querySimilarReviews, searchReviews, getStatus } from "./services/chroma.js";
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
