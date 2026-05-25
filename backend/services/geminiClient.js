@@ -2,6 +2,10 @@ import "dotenv/config";
 import { GoogleGenAI } from "@google/genai";
 import { traceable } from "langsmith/traceable";
 
+console.log("[LangSmith Debug] Tracing env:", process.env.LANGSMITH_TRACING, "|| V2 env:", process.env.LANGCHAIN_TRACING_V2);
+console.log("[LangSmith Debug] Project env:", process.env.LANGSMITH_PROJECT, "|| V2 proj:", process.env.LANGCHAIN_PROJECT);
+console.log("[LangSmith Debug] Key loaded:", !!process.env.LANGSMITH_API_KEY, "|| V2 Key:", !!process.env.LANGCHAIN_API_KEY);
+
 const apiKey = process.env.GEMINI_API_KEY;
 export const ai = new GoogleGenAI({ apiKey });
 
